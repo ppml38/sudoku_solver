@@ -1,0 +1,95 @@
+body{
+    margin: 0rem;
+    background-color: white;
+    font-family: "Segoe UI", Tahoma, Helvetica, Sans-Serif, serif;
+    font-style: normal;
+    font-size: 14px;
+    color: gray;
+}
+#root{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.app{
+    width: 100%;
+    text-align: center;
+}
+.title{
+    display: inline-block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: .4rem;
+    color: gray;
+}
+.row{
+    white-space: nowrap;
+}
+.cell{
+    max-width: 3rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: white;
+    border: solid .01rem black;
+    font-size: 2rem;
+    text-align: center;
+    outline: none;
+}
+.row:nth-child(3n+0) .cell{
+    border-bottom-width: .14rem;
+}
+.row:nth-child(3n+1) .cell{
+    border-top-width: .14rem;
+}
+.row .cell:nth-child(3n+0){
+    border-right-width: .14rem;
+}
+.row .cell:nth-child(3n+1){
+    border-left-width: .14rem;
+}
+.row:nth-child(odd) .cell:nth-child(even){
+    background-color: lightgray;
+}
+.row:nth-child(even) .cell:nth-child(odd){
+    background-color: lightgray;
+}
+.buttonRow{
+    margin-top: 1rem;
+}
+button{
+    margin-right: .3rem;
+    padding: 10px 12px;
+    background-color: #4d90fe;
+    background-image: linear-gradient(#4d90fe 0px,#4787ed 100%);
+    border: 1px solid #3079ed;
+    border-radius: .3rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.resetbutton{
+    background-color: white;
+    background-image: none;
+    border: solid 1px gray;
+    color: black;
+}
+button:hover{
+    background-color: #357ae8;
+    background-image: linear-gradient(#4d90fe 0px,#357ae8 100%);
+    border: 1px solid #2f5bb7;
+    color: #fff;
+}
+.resetbutton:hover{
+    background-color: white;
+    background-image: none;
+    border: solid 1px black;
+    color: black;
+}
+button:active{
+    opacity: .7;
+}
+.answerCell{
+    color: blue;
+}
