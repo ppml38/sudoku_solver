@@ -73,35 +73,57 @@ class board{
         }
         return true;
     }
+    deepcopy(currentArray){
+        let newArray = new Array();
+        for(let i=0;i<currentArray.length;i++){
+            let row=[];
+            for(let j=0;j<currentArray[i].length;j++){
+                let val = currentArray[i][j];
+                row.push(Number(val));
+            }
+            newArray.push(row);
+        }
+        return newArray;
+    }
+    moveCursorToNext(){
+        let e = [...document.querySelectorAll('[tabindex]')];
+        let i = e.indexOf(document.activeElement) + 1;
+        i = i === e.length ? 0 : i;
+        e[i].focus()
+    }
+    getCell(row,col){
+        /*
+        Creates a cell component to be placed on board in provided row and column
+        */
+        let cell = document.createElement("input");
+        cell.setAttribute("type","text");
+        cell.setAttribute("maxlength","1");
+        cell.setAttribute("size","1");
+        cell.classList.add("cell");
+        cell.setAttribute("tabIndex",`${row}${col}`);
+        let txt = this.grid[row][col]===0?"":this.grid[row][col];
+        cell.setAttribute("value",txt);
+        cell.oninput=(event)=>{
+            event.preventDefault();
+            if(event.target.value.match('^[1-9]$') && this.canPlace(row,col,Number(event.target.value))===true){
+                this.grid[row][col]=Number(event.target.value);
+                // Move focus to next cell
+                this.moveCursorToNext();
+            }
+            else{
+                event.target.value="";
+                this.grid[row][col]=0;
+            }
+        };
+        return cell;
+    }
 	render(){
 	    let board=document.createElement("div");
 		for(let row=0; row<9; row++){
 			let rowdiv=document.createElement("div");
 			rowdiv.classList.add("row");
 			for(let col=0; col<9; col++){
-				let cell = document.createElement("input");
-				cell.setAttribute("type","text");
-				cell.classList.add("cell");
-				cell.setAttribute("tabIndex",`{row}{col}`);
-				let txt = this.grid[row][col]===0?"":this.grid[row][col];
-				cell.setAttribute("value",txt);
-				//cell.onchange=(event)=>{this.grid[row][col]=Number(event.target.value)};
-				cell.oninput=(event)=>{
-				    event.preventDefault();
-				    if(event.target.value.match('^[1-9]$') && this.canPlace(row,col,Number(event.target.value))===true){
-				        this.grid[row][col]=Number(event.target.value);
-				        // Move focus to next cell
-                        let e = [...document.querySelectorAll('[tabindex]')];
-                        let i = e.indexOf(document.activeElement) + 1;
-                        i = i === e.length ? 0 : i;
-                        e[i].focus()
-                    }
-                    else{
-				        event.target.value='';
-				        this.grid[row][col]=0;
-				    }
-				};
-				rowdiv.appendChild(cell);
+				rowdiv.appendChild(this.getCell(row,col));
 			}
 			board.appendChild(rowdiv);
 		}
@@ -120,26 +142,23 @@ class board{
 					 [0, 0, 0, 0, 0, 0, 0, 0, 0]];
 		this.render();
 	}
-	getCell(row,col){
+	getCellFromParentDiv(row,col){
 	    return this.parentDiv.firstChild.children.item(row).children.item(col);
 	}
 	solve(){
-		//let solution = new SudokuSolver(JSON.parse(JSON.stringify(this.grid))).solveSudoku();
-		let solution = new SudokuSolver(this.grid).solveSudoku();
+		let solution = new SudokuSolver(this.deepcopy(this.grid)).solveSudoku();
 		if(solution!==null){
-		/* // for showing the result in different color. but i noticed, this makes few cells have empty values(weird!)
-		   // even though new numbers assigned. hence commented out.
 		    for(let r=0; r<9; r++){
 		        for(let c=0; c<9; c++){
 		            if(this.grid[r][c]!==solution[r][c]){
-		                let cell=this.getCell(r,c);
-		                cell.setAttribute("value",solution[r][c]);
-		                cell.classList.add("answerCell");
+		                let cll=this.getCellFromParentDiv(r,c);
+		                cll.value=solution[r][c];
+		                cll.classList.add("answerCell");
 		            }
 		        }
-		    }*/
-			this.grid = [...solution]; // three dot deep copy is not working for nested array, need a better method.
-			this.render();
+		    }
+			this.grid = solution;
+			//this.render();
 		}
 		else{
 			alert("Invalid sudoku. No solution found.");

@@ -7,7 +7,7 @@ class defaultdict {
 }
 export class SudokuSolver{
 	constructor(board){
-		this.board=[...board];
+		this.board=board;
 		// box size
         this.n = 3;
         // row size

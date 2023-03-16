@@ -1,6 +1,6 @@
 body{
     margin: 0rem;
-    background-color: white;
+    background-color: #dae0e6;
     font-family: "Segoe UI", Tahoma, Helvetica, Sans-Serif, serif;
     font-style: normal;
     font-size: 14px;
@@ -36,6 +36,8 @@ body{
     font-size: 2rem;
     text-align: center;
     outline: none;
+    border-radius: 0%;
+    color: black;
 }
 .row:nth-child(3n+0) .cell{
     border-bottom-width: .14rem;
@@ -49,13 +51,19 @@ body{
 .row .cell:nth-child(3n+1){
     border-left-width: .14rem;
 }
-.row:nth-child(odd) .cell:nth-child(even){
+.row:nth-child(-n+3) .cell:nth-child(n + 4):nth-child(-n + 6){
     background-color: lightgray;
 }
-.row:nth-child(even) .cell:nth-child(odd){
+.row:nth-last-child(-n+3) .cell:nth-child(n + 4):nth-child(-n + 6){
     background-color: lightgray;
 }
-.buttonRow{
+.row:nth-child(n + 4):nth-child(-n + 6) .cell:nth-child(-n+3){
+    background-color: lightgray;
+}
+.row:nth-child(n + 4):nth-child(-n + 6) .cell:nth-last-child(-n+3){
+    background-color: lightgray;
+}
+.buttonrow{
     margin-top: 1rem;
 }
 button{
